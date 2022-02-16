@@ -17,7 +17,7 @@ require (
 	github.com/prometheus/client_golang v1.13.0
 	github.com/submariner-io/admiral v0.14.0-m0
 	github.com/submariner-io/shipyard v0.14.0-m0
-	github.com/submariner-io/submariner v0.13.0-m2.0.20220608112640-7f4a6a79da0d
+	github.com/submariner-io/submariner v0.14.0-m0.0.20220822164541-a60f3ada13b0
 	github.com/uw-labs/lichen v0.1.7
 	golang.org/x/text v0.3.8-0.20220509174342-b4bca84b0361
 	k8s.io/api v0.24.3
