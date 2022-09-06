@@ -22,6 +22,7 @@ import (
 	"context"
 	"fmt"
 
+	version "github.com/mcuadros/go-version"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 	"github.com/submariner-io/submariner-operator/internal/cli"
@@ -32,6 +33,10 @@ import (
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/client-go/kubernetes"
+)
+
+const (
+	minSubMVersionForOVN = "0.13.0"
 )
 
 var supportedNetworkPlugins = []string{
@@ -86,6 +91,12 @@ func checkCNIConfig(cluster *cmd.Cluster) bool {
 	if cluster.Submariner.Status.NetworkPlugin == constants.NetworkPluginGeneric {
 		status.EndWithWarning("Submariner could not detect the CNI network plugin and is using (%q) plugin."+
 			" It may or may not work.", cluster.Submariner.Status.NetworkPlugin)
+	} else if cluster.Submariner.Status.NetworkPlugin == constants.NetworkPluginOVNKubernetes &&
+		cluster.Submariner.Spec.Version != "devel" {
+		if version.Compare(cluster.Submariner.Spec.Version, minSubMVersionForOVN, "<") {
+			status.EndWithFailure("The Submariner version %v is less than the minimum supported version %v for OVNKubernetes CNI",
+				cluster.Submariner.Spec.Version, minSubMVersionForOVN)
+		}
 	} else {
 		status.EndWithSuccess("The detected CNI network plugin (%q) is supported", cluster.Submariner.Status.NetworkPlugin)
 	}
