@@ -2232,6 +2232,7 @@ rules:
   - apiGroups:
       - ""
     resources:
+      - pods
       - services
       - services/finalizers
       - endpoints
@@ -2519,6 +2520,7 @@ rules:
       - get
       - list
       - watch
+      - update
     resources:
       - nodes
 `
@@ -2720,6 +2722,7 @@ rules:
     resources:
       - pods
     verbs:
+      - delete
       - create
       - get
       - list
@@ -2727,6 +2730,7 @@ rules:
       - ""
     resources:
       - configmaps
+      - namespaces
     verbs:
       - get
       - list
@@ -2734,6 +2738,7 @@ rules:
       - apps
     resources:
       - daemonsets
+      - deployments
     verbs:
       - get
       - list
